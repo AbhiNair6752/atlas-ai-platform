@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import logging
 from app.config.settings import get_settings
 from app.core.logging import setup_logging
+from app.middleware.request_logging import request_logging_middleware
 
 settings = get_settings()
 
@@ -15,6 +16,7 @@ app = FastAPI(
     version=settings.APP_VERSION,
     description="Enterprise AI platform"
 )
+app.middleware("http")(request_logging_middleware)
 
 @app.get("/")
 async def root():
