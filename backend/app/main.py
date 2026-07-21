@@ -1,7 +1,14 @@
 from fastapi import FastAPI
+import logging
 from app.config.settings import get_settings
+from app.core.logging import setup_logging
 
 settings = get_settings()
+
+setup_logging()
+
+logger = logging.getLogger(__name__)
+logger.info("Starting Project Atlas API..")
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -11,6 +18,7 @@ app = FastAPI(
 
 @app.get("/")
 async def root():
+    logger.info("Root endpoint called")
     return {
         "application": settings.APP_NAME,
         "version": settings.APP_VERSION,
@@ -20,6 +28,7 @@ async def root():
 
 @app.get("/health")
 async def health():
+    logger.info("Health endpoint called")
     return {
         "status": "healthy"
     }
