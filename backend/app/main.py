@@ -1,16 +1,18 @@
 from fastapi import FastAPI
+from app.config.settings import settings
 
 app = FastAPI(
-    title="Project Atlas API",
-    version="0.1.0",
+    title=settings.APP_NAME,
+    version=settings.APP_VERSION,
     description="Enterprise AI platform"
 )
 
 @app.get("/")
 async def root():
     return {
-        "application": "Project Atlas",
-        "version": "0.1.0",
+        "application": settings.APP_NAME,
+        "version": settings.APP_VERSION,
+        "environment": settings.ENVIRONMENT,
         "status": "running"
     }
 
