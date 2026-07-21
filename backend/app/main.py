@@ -5,6 +5,7 @@ from app.core.logging import setup_logging
 from app.middleware.request_logging import request_logging_middleware
 from app.core.exceptions import AtlasException, ResourceNotFoundException
 from app.core.exception_handlers import atlas_exception_handler
+from app.api.router import router
 
 settings = get_settings()
 
@@ -22,6 +23,8 @@ app.middleware("http")(request_logging_middleware)
 
 app.add_exception_handler(AtlasException, atlas_exception_handler,)
 
+app.include_router(router)
+
 @app.get("/")
 async def root():
     logger.info("Root endpoint called")
@@ -32,12 +35,12 @@ async def root():
         "status": "running"
     }
 
-@app.get("/health")
+"""@app.get("/health")
 async def health():
     logger.info("Health endpoint called")
     return {
         "status": "healthy"
-    }
+    }"""
 
 @app.get("/test-error")
 async def test_error():
