@@ -3,6 +3,8 @@ import logging
 from app.config.settings import get_settings
 from app.core.logging import setup_logging
 from app.middleware.request_logging import request_logging_middleware
+from app.core.exceptions import AtlasException, ResourceNotFoundException
+from app.core.exception_handlers import atlas_exception_handler
 
 settings = get_settings()
 
@@ -17,6 +19,8 @@ app = FastAPI(
     description="Enterprise AI platform"
 )
 app.middleware("http")(request_logging_middleware)
+
+app.add_exception_handler(AtlasException, atlas_exception_handler,)
 
 @app.get("/")
 async def root():
@@ -34,3 +38,7 @@ async def health():
     return {
         "status": "healthy"
     }
+
+@app.get("/test-error")
+async def test_error():
+    raise ResourceNotFoundException("User Not Found")
