@@ -16,8 +16,13 @@ async def request_logging_middleware(request: Request, call_next):
         f"path={request.url.path}"
     )
 
-    response = await call_next(request)
-
+    try:
+       response = await call_next(request)
+    except Exception as e:
+        logger.exception(
+            f"Request Failed | request_id = {request_id}"
+        )
+        raise
     process_time = round(time.time()-start_time,3)
 
     logger.info(
