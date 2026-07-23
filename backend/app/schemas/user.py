@@ -5,6 +5,10 @@ class UserCreate(BaseModel):
     email: EmailStr
     full_name: str
 
+class UserUpdate(BaseModel):
+    email: EmailStr
+    full_name: str
+    
 class UserResponse(BaseModel):
     id: int
     email: EmailStr

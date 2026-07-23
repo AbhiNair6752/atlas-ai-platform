@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from app.models.user import User
-from app.schemas.user import UserCreate
+from app.schemas.user import UserCreate, UserUpdate
 from sqlalchemy import select
 from fastapi import HTTPException
 
@@ -46,5 +46,21 @@ class UserService:
                 status_code=404,
                 detail="User Not Found"
             )
-        return user    
+        return user
+    def update_user(
+            self,
+            user_id: int,
+            user_data: UserUpdate,
+            db: Session
+    ):
+        user = self.get_user_by_id(
+            user_id=user_id,
+            db=db
+        )
+        user.email = user_data.email
+        user.full_name = user_data.full_name
+
+        db.commit()
+        db.refresh(user)
+        return user   
 user_service = UserService()

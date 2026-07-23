@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.db.dependencies import get_db
-from app.schemas.user import UserCreate, UserResponse
+from app.schemas.user import UserCreate, UserResponse, UserUpdate
 from app.services.user_service import user_service
 
 router = APIRouter(
@@ -43,5 +43,20 @@ async def get_user_by_id(
 ):
     return user_service.get_user_by_id(
         user_id=user_id,
+        db=db
+    )
+
+@router.put(
+    "/{user_id}",
+    response_model=UserResponse
+)
+async def update_user(
+    user_id: int,
+    user_data: UserUpdate,
+    db: Session = Depends(get_db)
+):
+    return user_service.update_user(
+        user_id=user_id,
+        user_data=user_data,
         db=db
     )
