@@ -62,5 +62,17 @@ class UserService:
 
         db.commit()
         db.refresh(user)
-        return user   
+        return user 
+
+    def delete_user(
+            self,
+            user_id: int,
+            db: Session
+    ):
+        user = self.get_user_by_id(user_id=user_id, db=db)
+        db.delete(user)
+        db.commit()
+        return {
+            "message": "User deleted successfully"
+        }  
 user_service = UserService()
