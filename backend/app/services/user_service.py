@@ -4,6 +4,7 @@ from app.models.user import User
 from app.schemas.user import UserCreate, UserUpdate
 from sqlalchemy import select
 from fastapi import HTTPException
+from app.core.security import hash_password
 
 class UserService:
 
@@ -14,7 +15,8 @@ class UserService:
     ):
         user = User(
             email=user_data.email,
-            full_name=user_data.full_name
+            full_name=user_data.full_name,
+            hashed_password=hash_password(user_data.password)
         )
 
         db.add(user)
