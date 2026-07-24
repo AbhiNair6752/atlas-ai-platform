@@ -8,7 +8,7 @@ class UserCreate(BaseModel):
 class UserUpdate(BaseModel):
     email: EmailStr
     full_name: str
-    
+
 class UserResponse(BaseModel):
     id: int
     email: EmailStr
@@ -16,3 +16,6 @@ class UserResponse(BaseModel):
     created_at: datetime
 
     model_config= ConfigDict(from_attributes=True)
+
+class MessageResponse(BaseModel):
+    message: str
