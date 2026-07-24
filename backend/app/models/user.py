@@ -29,3 +29,8 @@ class User(Base):
         default=lambda: datetime.now(timezone.utc)
 
     )
+
+    hashed_password: Mapped[str] = mapped_column(
+        String(255),
+        nullable=False
+    )
