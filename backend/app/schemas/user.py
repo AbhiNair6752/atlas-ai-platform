@@ -20,3 +20,7 @@ class UserResponse(BaseModel):
 
 class MessageResponse(BaseModel):
     message: str
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
