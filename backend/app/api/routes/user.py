@@ -4,6 +4,8 @@ from sqlalchemy.orm import Session
 from app.db.dependencies import get_db
 from app.schemas.user import UserCreate, UserResponse, UserUpdate, MessageResponse
 from app.services.user_service import user_service
+from app.core.dependencies import get_current_user
+from app.models.user import User
 
 router = APIRouter(
     prefix="/users",
@@ -28,7 +30,8 @@ async def create_user(
     response_model=list[UserResponse]
 )
 async def get_all_users(
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
     return user_service.get_all_users(db)
 

@@ -3,6 +3,7 @@ from app.schemas.user import UserLogin
 from app.models.user import User
 from fastapi import HTTPException
 from app.core.security import verify_password
+from app.core.jwt import create_access_token
 
 class AuthService:
     def authenticate_user(

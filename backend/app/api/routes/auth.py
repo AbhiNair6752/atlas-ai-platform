@@ -5,17 +5,19 @@ from app.db.dependencies import get_db
 from app.schemas.user import Token, UserLogin
 from app.services.auth_service import auth_service
 from app.core.jwt import create_access_token
+from fastapi.security import OAuth2PasswordRequestForm
 
 router = APIRouter()
 
 @router.post("/login", response_model=Token)
 def login(
-    user_login: UserLogin,
+    form_data : OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db)
 ):
     user = auth_service.authenticate_user(
         db,
-        user_login
+        email=form_data.username,
+        password=form_data.password,
     )
 
     access_token = create_access_token(
