@@ -18,7 +18,8 @@ router = APIRouter(
 )
 async def create_user(
     user_data: UserCreate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     return user_service.create_user(
         user_data=user_data,
@@ -42,7 +43,8 @@ async def get_all_users(
 )
 async def get_user_by_id(
     user_id: int,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     return user_service.get_user_by_id(
         user_id=user_id,
@@ -56,7 +58,8 @@ async def get_user_by_id(
 async def update_user(
     user_id: int,
     user_data: UserUpdate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     return user_service.update_user(
         user_id=user_id,
@@ -67,7 +70,8 @@ async def update_user(
 @router.delete("/{user_id}", response_model=MessageResponse)
 async def delete_user(
     user_id: int,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     return user_service.delete_user(
         user_id=user_id,
