@@ -5,6 +5,7 @@ from fastapi import UploadFile
 from app.ai.pdf_processor import pdf_processor
 from app.ai.text_chunker import text_chunker
 from app.ai.embedding_service import embedding_service
+from app.ai.vector_store import vector_store
 
 UPLOAD_DIR = Path("uploads")
 UPLOAD_DIR.mkdir(exist_ok=True)
@@ -31,6 +32,10 @@ class DocumentService:
 
         embeddings = embedding_service.generate_embeddings(
             chunks
+        )
+        vector_store.add_documents(
+            chunks=chunks,
+            embeddings=embeddings
         )
         print("=" * 80)
 
