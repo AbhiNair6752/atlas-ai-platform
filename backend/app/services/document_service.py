@@ -4,6 +4,7 @@ from fastapi import UploadFile
 
 from app.ai.pdf_processor import pdf_processor
 from app.ai.text_chunker import text_chunker
+from app.ai.embedding_service import embedding_service
 
 UPLOAD_DIR = Path("uploads")
 UPLOAD_DIR.mkdir(exist_ok=True)
@@ -27,21 +28,27 @@ class DocumentService:
         chunks = text_chunker.chunk_text(
             extracted_text
         )
-        print("\n" + "=" * 80)
-        print(f"Document: {file.filename}")
-        print(f"Total chunks : {len(chunks)}")
+
+        embeddings = embedding_service.generate_embeddings(
+            chunks
+        )
         print("=" * 80)
 
-        for i, chunk in enumerate(chunks, start=1):
-            print(f"\n chunk{i}")
-            print("-" * 80)
-            print(chunk)
-        print("=" * 80 + "\n")
+        print(f"Document: {file.filename}")
+
+        print(f"Chunks: {len(chunks)}")
+
+        print(f"Embeddings: {len(embeddings)}")
+
+        print(f"Embedding Dimension: {len(embeddings[0])}")
+
+        print("=" * 80)
 
         return {
             "filename": file.filename,
             "text": extracted_text,
-            "chunks": chunks
+            "chunks": chunks,
+            "embeddings": embeddings
         }
     
 document_service = DocumentService()
