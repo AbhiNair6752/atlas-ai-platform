@@ -11,7 +11,6 @@ def upload_document(
     result = document_service.upload_document(
         file
     )
-    print(result["text"])
 
     return UploadResponse(
         filename=result["filename"],
