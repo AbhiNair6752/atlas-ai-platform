@@ -2,6 +2,8 @@ from pathlib import Path
 import shutil
 from fastapi import UploadFile
 
+from app.ai.pdf_processor import pdf_processor
+
 UPLOAD_DIR = Path("uploads")
 UPLOAD_DIR.mkdir(exist_ok=True)
 
@@ -17,7 +19,13 @@ class DocumentService:
                 file.file,
                 buffer
             )
+        extracted_text = pdf_processor.extract_text(
+            str(file_path)
+        )
 
-        return file.filename
+        return {
+            "filename": file.filename,
+            "text": extracted_text
+        }
     
 document_service = DocumentService()

@@ -8,11 +8,12 @@ router = APIRouter()
 def upload_document(
     file: UploadFile = File()
 ):
-    filename = document_service.upload_document(
+    result = document_service.upload_document(
         file
     )
+    print(result["text"])
 
     return UploadResponse(
-        filename=filename,
+        filename=result["filename"],
         message="Document uploaded successfully."
     )
