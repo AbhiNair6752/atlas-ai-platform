@@ -1,16 +1,17 @@
 from fastapi import APIRouter
 
-from app.schemas.chat import chatRequest, ChatResponse
-from app.ai.chat_service import chat_service
+from app.schemas.chat import ChatRequest, ChatResponse
+from app.services.chat_service import chat_service
 
 router = APIRouter()
 
 @router.post("/chat", response_model=ChatResponse)
-def chat(request: chatRequest):
+def chat(request: ChatRequest):
 
-    response = chat_service.chat(
-        request.message
-    )
+    result = chat_service.chat(request.question)
+    
     return ChatResponse(
-        response=response
+        question=result["question"],
+        answer=result["answer"],
+        sources=result["sources"],
     )

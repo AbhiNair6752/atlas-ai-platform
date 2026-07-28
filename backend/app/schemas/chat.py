@@ -1,7 +1,16 @@
 from pydantic import BaseModel
 
-class chatRequest(BaseModel):
-    message: str
+
+class ChatRequest(BaseModel):
+    question: str
+
+
+class Source(BaseModel):
+    score: float
+    text: str
+
 
 class ChatResponse(BaseModel):
-    response: str
+    question: str
+    answer: str
+    sources: list[Source]
