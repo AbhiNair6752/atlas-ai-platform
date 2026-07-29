@@ -1,11 +1,12 @@
 from app.ai.embedding_service import embedding_service
 from app.ai.vector_store import vector_store
+from app.ai.reranker import reranker
 
 class Retriever:
     def retrieve(
             self,
             query: str,
-            limit: int = 5
+            limit: int = 10
     ):
         query_embedding = embedding_service.generate_embedding(query)
 
@@ -23,6 +24,11 @@ class Retriever:
                     "text": result.payload["text"]
                 }
             )
-        return retrieved_chunks
+        reranked_documents = reranker.rerank(
+            query=query,
+            documents=retrieved_chunks,
+            top_k=3
+        )
+        return reranked_documents
     
 retriever = Retriever()

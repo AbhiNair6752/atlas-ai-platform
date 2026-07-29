@@ -27,4 +27,25 @@ class LLM:
 
         return response.choices[0].message.content
     
+    def stream_response(
+            self,
+            prompt:str
+    ):
+        stream = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+            temperature=0.2,
+            stream=True
+        )
+        for chunk in stream:
+            delta = chunk.choices[0].delta.content
+
+            if delta:
+                yield delta
+    
 llm = LLM()
