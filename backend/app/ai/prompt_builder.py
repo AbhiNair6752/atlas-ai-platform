@@ -3,12 +3,20 @@ class PromptBuilder:
     def build_prompt(
             self,
             query: str,
-            retrieved_chunks: list[dict]
+            retrieved_chunks: list[dict],
+            history: list[dict]
     ) -> str:
         context = "\n\n".join(
             chunk["text"]
             for chunk in retrieved_chunks
         )
+        conversation = ""
+
+        for message in history:
+            conversation += (
+                f"{message['role'].capitalize()}: "
+                f"{message['content']}\n"
+            )
 
         prompt = f"""
           You are Atlas AI.
@@ -20,21 +28,28 @@ class PromptBuilder:
           If the answer cannot be found in the context, say:
 
           I couldn't find that information in the uploaded documents.
-          --------------------
-Context
---------------------
+         ---------------------------------
+Conversation History
+---------------------------------
+
+{conversation}
+
+---------------------------------
+Retrieved Context
+---------------------------------
 
 {context}
 
---------------------
-Question
---------------------
+---------------------------------
+Current Question
+---------------------------------
 
 {query}
 
---------------------
+---------------------------------
 Answer
---------------------"""
+---------------------------------
+"""
         return prompt.strip()
     
 prompt_builder = PromptBuilder()
