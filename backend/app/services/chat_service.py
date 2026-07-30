@@ -4,6 +4,7 @@ from app.ai.memory import coversation_memory
 from app.ai.evaluator import evaluator
 
 from app.ai.llm import llm
+from app.ai.llm_judge import llm_judge
 
 class ChatService:
     def chat(
@@ -20,10 +21,15 @@ class ChatService:
                                              history=history)
         answer = llm.generate_response(prompt)
 
-        evaluation = evaluator.evaluate(
+        context = "\n\n".join(
+                 chunk["text"]
+                 for chunk in retrieved_chunks
+)
+
+        evaluation = llm_judge.evaluate(
             question=query,
             answer=answer,
-            retrieved_chunks=retrieved_chunks
+            context=context
         )
 
         coversation_memory.add_message(

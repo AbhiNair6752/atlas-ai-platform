@@ -10,14 +10,22 @@ class Source(BaseModel):
     score: float
     text: str
 
+class SourceResponse(BaseModel):
+    text: str
+    score: float
+
 class EvaluationResponse(BaseModel):
     grounded: bool
-    retrieved_chunks: int
+    relevance: int
+    faithfulness: int
+    completeness: int
+    overall_score: int
+    feedback: str
 
 
 class ChatResponse(BaseModel):
     question: str
     answer: str
-    sources: list[Source]
+    sources: list[SourceResponse]
     evaluation: EvaluationResponse
 
