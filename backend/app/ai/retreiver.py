@@ -20,6 +20,7 @@ class Retriever:
         for result in results.points:
             retrieved_chunks.append(
                 {
+                    "id": result.id,
                     "score": result.score,
                     "text": result.payload["text"]
                 }

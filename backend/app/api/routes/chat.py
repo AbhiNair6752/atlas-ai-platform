@@ -15,4 +15,5 @@ def chat(request: ChatRequest):
         question=result["question"],
         answer=result["answer"],
         sources=result["sources"],
+        evaluation=result["evaluation"]
     )

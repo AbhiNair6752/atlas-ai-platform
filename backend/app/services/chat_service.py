@@ -1,6 +1,7 @@
 from app.ai.retreiver import retriever
 from app.ai.prompt_builder import prompt_builder
 from app.ai.memory import coversation_memory
+from app.ai.evaluator import evaluator
 
 from app.ai.llm import llm
 
@@ -19,6 +20,12 @@ class ChatService:
                                              history=history)
         answer = llm.generate_response(prompt)
 
+        evaluation = evaluator.evaluate(
+            question=query,
+            answer=answer,
+            retrieved_chunks=retrieved_chunks
+        )
+
         coversation_memory.add_message(
             session_id,
             "user",
@@ -33,6 +40,7 @@ class ChatService:
         return {
             "question": query,
             "answer": answer,
-            "sources": retrieved_chunks
+            "sources": retrieved_chunks,
+            "evaluation": evaluation
         }
 chat_service = ChatService()
