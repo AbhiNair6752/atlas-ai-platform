@@ -1,4 +1,13 @@
 from app.graph.state import GraphState
+from app.ai.llm import llm
+
+VALID_INTENTS = {
+    "document_qa",
+    "general_chat",
+    "summary",
+    "comparison",
+    "web_search",
+}
 
 class Planner:
 
@@ -7,7 +16,33 @@ class Planner:
             state: GraphState,
     ) -> GraphState:
         
-        question = state["question"].lower()
+        prompt = f"""
+You are an AI workflow planner.
+
+Your job is to classify the user's request.
+
+Choose ONLY ONE intent from:
+
+document_qa
+
+general_chat
+
+summary
+
+comparison
+
+web_search
+
+Question:
+
+{state["question"]}
+
+Return ONLY the intent.
+
+Do not explain.
+"""
+        
+        """question = state["question"].lower()
 
         if(
             "summarize" in question
@@ -24,6 +59,15 @@ class Planner:
 
         else:
             state["intent"] = "document_qa"
+
+        return state"""
+
+        intent = llm.generate_response(prompt)
+
+        intent = (intent.strip().lower().replace(" ","_"))
+        if intent not in VALID_INTENTS:
+            intent = "document_qa"
+        state["intent"] = intent
 
         return state
     
