@@ -35,7 +35,8 @@ class DocumentService:
         )
         vector_store.add_documents(
             chunks=chunks,
-            embeddings=embeddings
+            embeddings=embeddings,
+            filename=file.filename
         )
         print("=" * 80)
 

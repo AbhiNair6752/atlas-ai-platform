@@ -33,16 +33,19 @@ class VectorStore:
     def add_documents(
             self,
             chunks: list[str],
-            embeddings: list[list[float]]
+            embeddings: list[list[float]],
+            filename: str
     ):
         points = []
-        for chunk, embedding in zip(chunks, embeddings):
+        for index, (chunk, embedding) in enumerate(zip(chunks, embeddings)):
             points.append(
                 PointStruct(
                     id=str(uuid.uuid4()),
                     vector=embedding,
                     payload={
-                        "text": chunk
+                        "text": chunk,
+                        "filename": filename,
+                        "chunk_index": index
                     }
                 )
             )
