@@ -2,6 +2,7 @@ from app.ai.embedding_service import embedding_service
 from app.ai.vector_store import vector_store
 from app.ai.reranker import reranker
 from qdrant_client.models import Filter,FieldCondition,MatchValue
+from app.ai.keyword_search import keyword_search
 
 class Retriever:
     def retrieve(
@@ -42,9 +43,21 @@ class Retriever:
                     "chunk_index": result.payload["chunk_index"]
                 }
             )
+        keyword_results = keyword_search.search(
+            query=query,
+            documents=retrieved_chunks
+        )
+        combined_results = retrieved_chunks.copy()
+
+        for keyword_doc in keyword_results:
+            if keyword_doc["id"] not in [
+                doc["id"]
+                for doc in combined_results
+            ]:
+                combined_results.append(keyword_doc) 
         reranked_documents = reranker.rerank(
             query=query,
-            documents=retrieved_chunks,
+            documents=combined_results,
             top_k=3
         )
         return reranked_documents
