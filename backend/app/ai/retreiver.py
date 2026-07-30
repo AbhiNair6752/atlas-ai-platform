@@ -3,6 +3,7 @@ from app.ai.vector_store import vector_store
 from app.ai.reranker import reranker
 from qdrant_client.models import Filter,FieldCondition,MatchValue
 from app.ai.keyword_search import keyword_search
+from app.ai.bm25_search import bm25_search
 
 class Retriever:
     def retrieve(
@@ -43,7 +44,28 @@ class Retriever:
                     "chunk_index": result.payload["chunk_index"]
                 }
             )
-        keyword_results = keyword_search.search(
+        bm25_results = bm25_search.search(
+            query=query,
+            documents=retrieved_chunks,
+            top_k=5
+        )
+        bm25_lookup = {
+            doc["id"]: doc
+            for doc in bm25_results
+        }
+
+        combined_results = []
+        
+        for doc in retrieved_chunks:
+
+            if doc["id"] in bm25_lookup:
+                doc["bm25_score"] = bm25_lookup[doc["id"]]["bm25_score"]
+            else:
+                doc["bm25_score"] = 0
+            combined_results.append(doc)
+
+
+        """keyword_results = keyword_search.search(
             query=query,
             documents=retrieved_chunks
         )
@@ -54,7 +76,7 @@ class Retriever:
                 doc["id"]
                 for doc in combined_results
             ]:
-                combined_results.append(keyword_doc) 
+                combined_results.append(keyword_doc) """
         reranked_documents = reranker.rerank(
             query=query,
             documents=combined_results,
