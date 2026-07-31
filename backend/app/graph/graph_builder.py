@@ -6,6 +6,8 @@ from app.graph.nodes.document_node import document_node
 from app.graph.nodes.general_chat_node import general_chat_node
 from app.graph.nodes.summary_node import summary_node
 from app.graph.nodes.web_search_node import web_search_node
+from app.graph.nodes.comparison_node import comparison_node
+
 
 graph = StateGraph(GraphState)
 
@@ -32,6 +34,12 @@ graph.add_node(
     "web_search_node",
     web_search_node.execute
 )
+
+graph.add_node(
+    "comparison_node",
+    comparison_node.execute
+)
+
 def route_function(
         state: GraphState
 ):
@@ -48,7 +56,8 @@ graph.add_conditional_edges(
         "document_qa": "document_node",
         "general_chat": "general_chat_node",
         "summary": "summary_node",
-        "web_search": "web_search_node"
+        "web_search": "web_search_node",
+        "comparison": "comparison_node"
     }
 )
 
@@ -69,6 +78,11 @@ graph.add_edge(
 
 graph.add_edge(
     "web_search_node",
+    END
+)
+
+graph.add_edge(
+    "comparison_node",
     END
 )
 
