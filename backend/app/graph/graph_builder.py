@@ -4,6 +4,7 @@ from app.graph.state import GraphState
 from app.graph.planner import planner
 from app.graph.nodes.document_node import document_node
 from app.graph.nodes.general_chat_node import general_chat_node
+from app.graph.nodes.summary_node import summary_node
 
 graph = StateGraph(GraphState)
 
@@ -19,6 +20,11 @@ graph.add_node(
 graph.add_node(
     "general_chat_node",
     general_chat_node.execute
+)
+
+graph.add_node(
+    "summary_node",
+    summary_node.execute
 )
 
 def route_function(
@@ -48,6 +54,11 @@ graph.add_edge(
 
 graph.add_edge(
     "general_chat_node",
+    END
+)
+
+graph.add_edge(
+    "summary_node",
     END
 )
 
