@@ -80,4 +80,44 @@ Document:
 """
         return prompt
     
+    def build_comparison_prompt(
+            self,
+            documents: dict[str, list[str]]
+
+    ) -> str:
+        document_context = ""
+
+        for filename, chunks in documents.items():
+            document_context += f"""
+            Document:
+{filename}
+
+{"".join(chunks)}
+
+-------------------------------------
+
+"""
+            prompt = f"""
+You are Atlas AI.
+
+You are an expert document analyst.
+
+Compare the following documents.
+
+Instructions:
+
+- Highlight similarities.
+- Highlight differences.
+- Mention unique information.
+- Keep the comparison concise.
+- Use a markdown table whenever appropriate.
+- Do not invent information.
+- Base your answer only on the provided documents.
+
+Documents:
+
+{document_context}
+"""
+            return prompt
+    
 prompt_builder = PromptBuilder()

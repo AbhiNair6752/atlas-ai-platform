@@ -68,7 +68,9 @@ Rules:
 3. If exactly one document matches:
 status = "success"
 
-4. If multiple documents could match:
+4.If the user's request is genuinely unclear
+(for example: "summarize the policy" when multiple policy documents exist),
+return:
 status = "ambiguous"
 
 5. If no document matches:
