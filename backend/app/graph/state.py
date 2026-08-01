@@ -5,5 +5,7 @@ class GraphState(TypedDict):
     session_id: str
     intent: str
     answer: str
-    sources: list
-    evaluation: dict
+    sources: list[str]
+    evaluation: dict | None
+    conversation_history: list
+    selected_documents: list[str]
