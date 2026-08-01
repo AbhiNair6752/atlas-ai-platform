@@ -9,7 +9,7 @@ class DocumentNode:
     ) -> GraphState:
         
         result = chat_service.chat(
-            session_id: state["session_id"],
+            session_id = state["session_id"],
             query = state["question"]
         )
 
