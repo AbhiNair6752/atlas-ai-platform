@@ -54,4 +54,19 @@ class VectorStore:
             points=points
         )
 
+    def get_uploaded_documents(self) -> list[str]:
+        points, _ = self.client.scroll(
+            collection_name=self.collection_name,
+            with_payload=True,
+            with_vectors=False,
+            limit=1000
+        )
+
+        filenames = {
+            point.payload["filename"]
+            for point in points
+            if "filename" in point.payload
+        }
+        return sorted(list(filenames))
+
 vector_store = VectorStore()
