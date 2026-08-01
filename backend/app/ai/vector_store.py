@@ -1,5 +1,5 @@
 from qdrant_client import QdrantClient
-from qdrant_client.models import (VectorParams, Distance, PointStruct)
+from qdrant_client.models import (VectorParams, Distance, PointStruct,Filter,FieldCondition,MatchValue)
 import uuid
 
 
@@ -68,5 +68,37 @@ class VectorStore:
             if "filename" in point.payload
         }
         return sorted(list(filenames))
+    
+    def get_document_chunks(
+            self,
+            filename: str,
+    ) -> list[str]:
+        
+        points, _ = self.client.scroll(
+            collection_name = self.collection_name,
+            scroll_filter=Filter(
+                must=[
+                    FieldCondition(
+                        key="filename",
+                        match=MatchValue(
+                            value=filename
+                        )
+                    )
+                ]
+            ),
+            with_payload=True,
+            with_vectors=False,
+            limit=10000
+        )
+
+        points.sort(
+            key=lambda point: point.payload["chunk_index"]
+        )
+        chunks =[
+            point.payload["text"]
+            for point in points
+        ]
+
+        return chunks
 
 vector_store = VectorStore()

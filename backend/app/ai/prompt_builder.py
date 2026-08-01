@@ -52,4 +52,32 @@ Answer
 """
         return prompt.strip()
     
+    def build_summary_prompt(
+            self,
+            chunks: list[str]
+    ) -> str:
+        
+        document = "\n\n".join(chunks)
+        prompt = f"""
+You are Atlas AI.
+
+You are an expert document analyst.
+
+Your task is to summarize the document provided below.
+
+Instructions:
+
+- Produce a concise but complete summary.
+- Preserve the important policies, procedures and key points.
+- Do not invent information.
+- Do not omit important sections.
+- Use clear bullet points where appropriate.
+- Keep the summary well structured.
+
+Document:
+
+{document}
+"""
+        return prompt
+    
 prompt_builder = PromptBuilder()

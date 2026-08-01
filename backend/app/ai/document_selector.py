@@ -53,7 +53,7 @@ the user is referring to.
 
 Available Documents:
 
-{chr(10).join("- " + doc for doc in available_documents)}
+{"\n".join("- " + doc for doc in available_documents)}
 
 User Question:
 
