@@ -3,6 +3,7 @@ from app.ai.document_selector import document_selector
 from app.ai.retreiver import retriever
 from app.ai.llm import llm
 from app.ai.prompt_builder import prompt_builder
+from app.services.knowledge_service import knowledge_service
 
 class SummaryService:
 
@@ -12,7 +13,7 @@ class SummaryService:
             question: str
     ) -> dict:
         
-        available_documents = vector_store.get_uploaded_documents()
+        """available_documents = vector_store.get_uploaded_documents()
 
         selection = document_selector.select(
             question=question,
@@ -38,9 +39,13 @@ class SummaryService:
         
         chunks = vector_store.get_document_chunks(
             selection.documents[0]
-        )
+        )"""
+
+        document = knowledge_service.get_document(question)
+
+
         prompt = prompt_builder.build_summary_prompt(
-            chunks
+            document.chunks
         )
 
         summary = llm.generate_response(prompt)

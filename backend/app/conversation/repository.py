@@ -6,14 +6,14 @@ class ConversationRepository(ABC):
     def load(
         self,
         session_id: str,
-    )-> list:
+    )-> list[ConversationState]:
         pass
 
     @abstractmethod
-    def save(
+    def append(
         self,
         session_id: str,
-        history: list
+        conversation_turn
     ):
         pass
 
@@ -23,3 +23,5 @@ class ConversationRepository(ABC):
         session_id: str,
     ): 
         pass
+
+conversation_repository = ConversationRepository()
