@@ -1,6 +1,7 @@
 from app.ai.vector_store import vector_store
 from app.ai.document_selector import document_selector
 from app.schemas.knowledge import DocumentContext
+from app.exceptions.knowledge import (DocumentNotFoundException, AmbiguousDocumebtException)
 
 class KnowledgeService:
 
@@ -15,12 +16,12 @@ class KnowledgeService:
             available_documents=available_documents
         )
         if selection.status == "not_found":
-            raise ValueError(
+            raise DocumentNotFoundException(
                 "No Matching document found"
             )
         
         if selection.status == "ambiguous":
-            raise ValueError(
+            raise AmbiguousDocumebtException(
                 "Multiple matching documents found"
             )
         
