@@ -7,6 +7,7 @@ from app.graph.nodes.general_chat_node import general_chat_node
 from app.graph.nodes.summary_node import summary_node
 from app.graph.nodes.web_search_node import web_search_node
 from app.graph.nodes.comparison_node import comparison_node
+from langgraph.checkpoint.memory import MemorySaver
 
 
 graph = StateGraph(GraphState)
@@ -86,4 +87,8 @@ graph.add_edge(
     END
 )
 
-workflow = graph.compile()
+memory = MemorySaver()
+
+workflow = graph.compile(
+    checkpointer=memory
+)

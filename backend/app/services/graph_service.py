@@ -16,7 +16,13 @@ class GraphService:
             "evaluation": {},
         }
 
-        result = workflow.invoke(initial_state)
+        result = workflow.invoke(
+            initial_state,
+            config={
+                "configurable": {
+                    "thread_id": session_id
+                }
+            })
 
         return result
     
