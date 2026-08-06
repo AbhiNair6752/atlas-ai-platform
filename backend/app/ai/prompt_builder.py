@@ -1,3 +1,5 @@
+from app.schemas.knowledge import DocumentContext
+
 class PromptBuilder:
 
     def build_prompt(
@@ -54,10 +56,10 @@ Answer
     
     def build_summary_prompt(
             self,
-            chunks: list[str]
+            document: DocumentContext
     ) -> str:
         
-        document = "\n\n".join(chunks)
+        document_text = "\n\n".join(document.chunks)
         prompt = f"""
 You are Atlas AI.
 
@@ -91,7 +93,7 @@ Document:
             document_context += f"""
             Document:
 {filename}
-
+    
 {"".join(chunks)}
 
 -------------------------------------

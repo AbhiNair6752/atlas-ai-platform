@@ -45,13 +45,13 @@ class SummaryService:
 
 
         prompt = prompt_builder.build_summary_prompt(
-            document.chunks
+            document
         )
 
         summary = llm.generate_response(prompt)
 
         return {
             "answer": summary,
-            "sources": selection.documents,
+            "sources": [document.filename],
             "evaluation": None
         }
