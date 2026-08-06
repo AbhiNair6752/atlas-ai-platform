@@ -2,6 +2,7 @@ from app.ai.document_selector import document_selector
 from app.ai.llm import llm
 from app.ai.vector_store import vector_store
 from app.ai.prompt_builder import prompt_builder
+from app.services.knowledge_service import knowledge_service
 
 class ComparisonService:
 
@@ -10,9 +11,13 @@ class ComparisonService:
             question: str,
     ) -> dict:
         
-        available_documents = vector_store.get_uploaded_documents()
+        """available_documents = vector_store.get_uploaded_documents()"""
 
-        selection = document_selector.select(
+        documents = knowledge_service.get_documents(
+            question
+        )
+ 
+        """selection = document_selector.select(
             question=question,
             available_documents=available_documents
         )
@@ -43,14 +48,17 @@ class ComparisonService:
         for filename in selection.documents:
             documents[filename] = vector_store.get_document_chunks(
                 filename
-            )
+            )"""
         prompt = prompt_builder.build_comparison_prompt(documents)
 
         comparison = llm.generate_response(prompt)
 
         return {
              "answer": comparison,
-            "sources": selection.documents,
+            "sources": [
+                document.filename
+                for document in documents
+            ],
             "evaluation": None
         }
 
