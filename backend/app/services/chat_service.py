@@ -5,6 +5,7 @@ from app.ai.evaluator import evaluator
 
 from app.ai.llm import llm
 from app.ai.llm_judge import llm_judge
+from app.ai.gateway.llm_gateway import llm_gateway
 
 class ChatService:
     def chat(
@@ -19,7 +20,7 @@ class ChatService:
         prompt = prompt_builder.build_prompt(query=query,
                                              retrieved_chunks=retrieved_chunks,
                                              history=history)
-        answer = llm.generate_response(prompt)
+        answer = llm_gateway.generate_response(prompt)
 
         context = "\n\n".join(
                  chunk["text"]

@@ -3,6 +3,7 @@ from app.ai.llm import llm
 from app.ai.vector_store import vector_store
 from app.ai.prompt_builder import prompt_builder
 from app.services.knowledge_service import knowledge_service
+from app.ai.gateway.llm_gateway import llm_gateway
 
 class ComparisonService:
 
@@ -51,7 +52,7 @@ class ComparisonService:
             )"""
         prompt = prompt_builder.build_comparison_prompt(documents)
 
-        comparison = llm.generate_response(prompt)
+        comparison = llm_gateway.generate_response(prompt)
 
         return {
              "answer": comparison,

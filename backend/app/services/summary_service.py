@@ -2,6 +2,7 @@ from app.ai.vector_store import vector_store
 from app.ai.document_selector import document_selector
 from app.ai.retreiver import retriever
 from app.ai.llm import llm
+from app.ai.gateway.llm_gateway import llm_gateway
 from app.ai.prompt_builder import prompt_builder
 from app.services.knowledge_service import knowledge_service
 
@@ -48,7 +49,7 @@ class SummaryService:
             document
         )
 
-        summary = llm.generate_response(prompt)
+        summary = llm_gateway.generate_response(prompt)
 
         return {
             "answer": summary,
