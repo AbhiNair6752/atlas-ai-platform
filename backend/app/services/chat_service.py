@@ -17,7 +17,7 @@ class ChatService:
         
         retrieved_chunks = retriever.retrieve(query)
 
-        prompt = prompt_builder.build_prompt(query=query,
+        prompt = prompt_builder.build_chat_prompt(query=query,
                                              retrieved_chunks=retrieved_chunks,
                                              history=history)
         answer = llm_gateway.generate_response(prompt)

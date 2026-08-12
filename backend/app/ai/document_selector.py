@@ -1,5 +1,7 @@
 from app.ai.llm import llm
 from app.schemas.document_selector import DocumentSelection
+from app.ai.gateway.llm_gateway import llm_gateway
+from app.ai.gateway.llm_task import LLMTask
 
 class DocumentSelector:
 
@@ -27,7 +29,8 @@ One document per line.
 
 If no document matches, return NONE.
 """
-        response = llm.generate_response(prompt)
+        response = llm_gateway.generate_response(prompt,
+                                                 task=LLMTask.DOCUMENT_SELECTOR)
 
         selected_documents = [
             line.strip()
@@ -87,9 +90,10 @@ Example:
     ]
 }}
 """
-        return llm.generate_structured_response(
+        return llm_gateway.generate_structured_response(
             prompt,
-            DocumentSelection
+            DocumentSelection,
+            task=LLMTask.DOCUMENT_SELECTOR
         )
     
 document_selector = DocumentSelector()

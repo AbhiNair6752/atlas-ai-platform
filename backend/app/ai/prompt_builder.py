@@ -121,5 +121,49 @@ Documents:
 {document_context}
 """
             return prompt
+        
+    def build_chat_prompt(
+            self,
+            question: str,
+            history: list[dict]
+    ) -> str:
+        
+        conversation = ""
+
+        for message in history:
+            conversation += (
+                f"{message['role'].capitalize()}:"
+                f"{message['content']}\n"
+            )
+
+        prompt = f"""
+        You are Atlas AI.
+
+You are a helpful enterprise AI assistant.
+
+Answer the user's question clearly and accurately.
+
+Use the conversation history when it is relevant.
+
+Do not invent information.
+
+---------------------------------
+Conversation History
+---------------------------------
+
+{conversation}
+
+---------------------------------
+Current Question
+---------------------------------
+
+{question}
+
+---------------------------------
+Answer
+---------------------------------
+"""
+        return prompt.strip()
+        
     
 prompt_builder = PromptBuilder()
