@@ -1,6 +1,8 @@
 import json
 
 from app.ai.llm import llm
+from app.ai.gateway.llm_gateway import llm_gateway
+from app.ai.gateway.llm_task import LLMTask
 
 class LLMJudge:
 
@@ -61,7 +63,8 @@ Do not include explanations.
 Return only JSON.
 """
         
-        response = llm.generate_response(prompt)
+        response = llm_gateway.generate_response(prompt,
+                                                 task=LLMTask.EVALUATION)
 
         try: 
             return json.loads(response)

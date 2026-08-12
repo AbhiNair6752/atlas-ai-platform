@@ -1,6 +1,8 @@
 from app.graph.state import GraphState
 from app.tools.web_search import web_search_tool
 from app.ai.llm import llm
+from app.ai.gateway.llm_gateway import llm_gateway
+from app.ai.gateway.llm_task import LLMTask
 
 class WebsearchNode:
     
@@ -26,7 +28,8 @@ Question:
 
 {state["question"]}
 """
-        answer = llm.generate_response(prompt)
+        answer = llm_gateway.generate_response(prompt,
+                                               task=LLMTask.WEB_SEARCH)
 
         state["answer"] = answer
         state["sources"] = [search_results]

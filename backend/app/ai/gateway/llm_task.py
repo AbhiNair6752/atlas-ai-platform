@@ -11,3 +11,8 @@ class LLMTask(str, Enum):
     PLANNER = "planner"
 
     DOCUMENT_SELECTOR = "document_selector"
+
+    WEB_SEARCH = "web_search"
+
+    EVALUATION = "evaluation"
+
