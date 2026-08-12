@@ -1,5 +1,7 @@
 from app.graph.state import GraphState
 from app.ai.llm import llm
+from app.ai.gateway.llm_gateway import llm_gateway
+from app.ai.gateway.llm_task import LLMTask
 
 VALID_INTENTS = {
     "document_qa",
@@ -62,7 +64,10 @@ Do not explain.
 
         return state"""
 
-        intent = llm.generate_response(prompt)
+        intent = llm_gateway.generate_response(
+            prompt,
+            task=LLMTask.PLANNER
+        )
 
         intent = (intent.strip().lower().replace(" ","_"))
         if intent not in VALID_INTENTS:
