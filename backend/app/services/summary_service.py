@@ -5,6 +5,7 @@ from app.ai.llm import llm
 from app.ai.gateway.llm_gateway import llm_gateway
 from app.ai.prompt_builder import prompt_builder
 from app.services.knowledge_service import knowledge_service
+from app.ai.gateway.llm_task import LLMTask
 
 class SummaryService:
 
@@ -49,7 +50,8 @@ class SummaryService:
             document
         )
 
-        summary = llm_gateway.generate_response(prompt)
+        summary = llm_gateway.generate_response(prompt,
+                                                task=LLMTask.SUMMARY)
 
         return {
             "answer": summary,

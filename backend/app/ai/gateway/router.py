@@ -1,5 +1,7 @@
 from app.ai.providers.base_provider import LLMProvider
 from app.ai.providers.groq_provider import groq_provider
+from app.ai.gateway.routing_request import LLMRoutingRequest
+
 
 
 class LLMRouter:
@@ -12,7 +14,7 @@ class LLMRouter:
 
     def get_provider(
             self,
-            task: str | None = None
+            request: LLMRoutingRequest
     ) -> LLMProvider:
         return groq_provider
     
