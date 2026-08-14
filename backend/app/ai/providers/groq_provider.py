@@ -47,7 +47,7 @@ class GroqProvider(LLMProvider):
 
             if delta:
                 yield delta
-        def generate_structured_response(
+    def generate_structured_response(
         self,
         prompt: str,
         response_model: type[BaseModel]
@@ -64,7 +64,13 @@ class GroqProvider(LLMProvider):
             temperature=0
         )
 
-        content = response.choices[0].message.content
+        content = response.choices[0].message.content.strip()
+
+        if content.startswith("```"):
+           content = content.removeprefix("```json")
+           content = content.removeprefix("```")
+           content = content.removesuffix("```")
+           content = content.strip()
 
         try:
 

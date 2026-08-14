@@ -23,6 +23,10 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     GROQ_API_KEY: str
 
+    REDIS_HOST: str = "127.0.0.1"
+    REDIS_PORT: int = 6379
+    REDIS_DB: int = 0
+
     model_config = SettingsConfigDict(
         env_file=".env",
         case_sensitive=True
