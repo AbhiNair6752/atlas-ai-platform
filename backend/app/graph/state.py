@@ -9,3 +9,4 @@ class GraphState(TypedDict):
     evaluation: dict | None
     conversation_history: list
     selected_documents: list[str]
+    history: list[dict]
