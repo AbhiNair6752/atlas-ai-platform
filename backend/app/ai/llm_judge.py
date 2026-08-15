@@ -72,7 +72,7 @@ Return only JSON.
              print("\nLLM Judge returned invalid JSON:")
              print(response)
 
-            return {
+        return {
                 "grounded": False,
                 "relevance": 0,
                 "faithfulness": 0,

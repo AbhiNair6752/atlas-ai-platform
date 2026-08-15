@@ -27,5 +27,5 @@ class ChatResponse(BaseModel):
     question: str
     answer: str
     sources: list[SourceResponse]
-    evaluation: EvaluationResponse
+    evaluation: EvaluationResponse | None = None
 

@@ -10,8 +10,9 @@ REDIS_URL = (
     f"{settings.REDIS_PORT}"
 )
 
-checkpointer = RedisSaver.from_conn_string(
+checkpointer_context = RedisSaver.from_conn_string(
     REDIS_URL
 )
+checkpointer = checkpointer_context.__enter__()
 
 checkpointer.setup()

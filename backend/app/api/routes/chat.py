@@ -10,11 +10,15 @@ router = APIRouter()
 def chat(request: ChatRequest):
 
     result = graph_service.chat(session_id= request.session_id,
-                               query = request.question)
+                               question= request.question)
+    evaluation = result.get("evaluation")
+
+    if not evaluation:
+        evaluation = None
     
     return ChatResponse(
         question=result["question"],
         answer=result["answer"],
         sources=result["sources"],
-        evaluation=result["evaluation"]
+        evaluation=evaluation
     )
