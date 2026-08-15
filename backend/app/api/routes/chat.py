@@ -3,6 +3,7 @@ from fastapi import APIRouter
 from app.schemas.chat import ChatRequest, ChatResponse
 from app.services.chat_service import chat_service
 from app.services.graph_service import graph_service
+from app.schemas.chat import ApprovalRequest
 
 router = APIRouter()
 
@@ -22,3 +23,12 @@ def chat(request: ChatRequest):
         sources=result["sources"],
         evaluation=evaluation
     )
+
+@router.post("/chat/approve")
+def approve_chat(request:ApprovalRequest):
+
+    result = graph_service.resume(
+        session_id=request.session_id,
+        approved=request.approved
+    )
+    return result

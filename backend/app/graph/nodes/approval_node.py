@@ -15,9 +15,7 @@ class ApprovalNode:
             }
         )
 
-        state["evaluation"] = {
-            "approval": approval
-        }
+        state["approved"] = approval
 
         return state
     

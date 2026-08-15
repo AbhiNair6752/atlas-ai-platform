@@ -29,3 +29,6 @@ class ChatResponse(BaseModel):
     sources: list[SourceResponse]
     evaluation: EvaluationResponse | None = None
 
+class ApprovalRequest(BaseModel):
+    session_id: str
+    approved: bool

@@ -10,3 +10,4 @@ class GraphState(TypedDict):
     conversation_history: list
     selected_documents: list[str]
     history: list[dict]
+    approved: bool | None

@@ -1,5 +1,6 @@
 from app.graph.graph_builder import workflow
 from app.memory.conversation_memory import conversation_memory
+from langgraph.types import Command
 
 
 class GraphService:
@@ -37,6 +38,9 @@ class GraphService:
                     "thread_id": session_id
                 }
             })
+        print("Graph Result:")
+        print(result)
+
         answer = result.get(
             "answer",
             ""
@@ -48,5 +52,26 @@ class GraphService:
         )
 
         return result
+    
+    def resume(
+        self,
+        session_id: str,
+        approved: bool
+    ):
+       config = {
+           "configurable": {
+               "thread_id": session_id
+           }
+       }
+       
+       result = workflow.invoke(
+           Command(
+               resume=approved
+           ),
+           config=config
+       )
+       return result
+    
+    
     
 graph_service = GraphService()
