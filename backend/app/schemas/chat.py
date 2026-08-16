@@ -32,3 +32,10 @@ class ChatResponse(BaseModel):
 class ApprovalRequest(BaseModel):
     session_id: str
     approved: bool
+
+class ApprovalRequiredResponse(BaseModel):
+    status: str
+    session_id: str
+    message: str
+    question: str
+    intent: str

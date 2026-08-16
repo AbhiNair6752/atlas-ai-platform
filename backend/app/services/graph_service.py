@@ -51,7 +51,26 @@ class GraphService:
             content=answer
         )
 
-        return result
+        if "__interrupt__" in result:
+
+           interrupt = result["__interrupt__"][0]
+
+           return {
+            "status": "approval_required",
+            "session_id": session_id,
+            "message": interrupt.value["message"],
+            "question": interrupt.value["question"],
+            "intent": interrupt.value["intent"],
+        }
+
+        return {
+          "status": "completed",
+          "session_id": session_id,
+          "question": result["question"],
+          "answer": result["answer"],
+          "sources": result["sources"],
+          "evaluation": result["evaluation"],
+    }
     
     def resume(
         self,
