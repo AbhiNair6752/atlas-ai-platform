@@ -1,6 +1,7 @@
 from app.graph.graph_builder import workflow
 from app.memory.conversation_memory import conversation_memory
 from langgraph.types import Command
+from app.security.input_guard import input_guard
 
 
 class GraphService:
@@ -10,6 +11,19 @@ class GraphService:
             session_id: str,
             question: str
     ):
+        security_result = input_guard.validate(question)
+
+        if not security_result.allowed:
+            return {
+                   "status": "blocked",
+                   "session_id": session_id,
+                   "question": question,
+                   "answer": "",
+                   "sources": [],
+                   "evaluation": None,
+                   "security_reason": security_result.reason,
+            }
+
         history = conversation_memory.get_history(
             session_id
         )

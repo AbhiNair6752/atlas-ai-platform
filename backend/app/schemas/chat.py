@@ -39,3 +39,12 @@ class ApprovalRequiredResponse(BaseModel):
     message: str
     question: str
     intent: str
+
+class SecurityBlockedResponse(BaseModel):
+    status: str
+    session_id: str
+    question: str
+    answer: str
+    sources: list
+    evaluation: dict | None = None
+    security_reason: str
